@@ -46,9 +46,5 @@ public class ProductController {
         return productService.getProducts(userDetails.getUser(), page-1, size, sortBy, isAsc);
     }
 
-//    @GetMapping("/admin/products")
-//    public List<ProductResponseDto> getAllProducts(){
-//        return productService.getAllProducts();
-//    }
 
 }
