@@ -24,13 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductService productService;
+
     @PostMapping("/products")
-    public ProductResponseDto createProduct(@RequestBody ProductRequestDto productRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ProductResponseDto createProduct(@RequestBody ProductRequestDto productRequestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return productService.createProduct(productRequestDto, userDetails.getUser());
     }
 
     @PutMapping("/products/{id}")
-    public ProductResponseDto updateProduct(@PathVariable Long id, @RequestBody ProductMypriceRequestDto requestDto){
+    public ProductResponseDto updateProduct(@PathVariable Long id,
+        @RequestBody ProductMypriceRequestDto requestDto) {
         return productService.updateProduct(id, requestDto);
     }
 
@@ -41,9 +44,14 @@ public class ProductController {
         @RequestParam("sortBy") String sortBy,
         @RequestParam("isAsc") boolean isAsc,
 
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return productService.getProducts(userDetails.getUser(), page - 1, size, sortBy, isAsc);
+    }
 
+    @PostMapping("/products/{productId}/folder")
+    public void addFolder(@PathVariable Long productId, @RequestParam Long folderId,
         @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return productService.getProducts(userDetails.getUser(), page-1, size, sortBy, isAsc);
+        productService.addFolder(productId, folderId, userDetails.getUser());
     }
 
 
